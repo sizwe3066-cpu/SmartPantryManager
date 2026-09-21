@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import android.content.ContentValues;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "pantry.db";
@@ -48,5 +50,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS recipe_ingredients");
 
         onCreate(db);
+    }
+
+    public boolean addIngredient(String ingredientName,
+                                 double quantity,
+                                 String unit,
+                                 String expiryDate) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put("ingredient_name", ingredientName);
+        values.put("quantity", quantity);
+        values.put("unit", unit);
+        values.put("expiry_date", expiryDate);
+
+        long result = db.insert("pantry", null, values);
+
+        return result != -1;
     }
 }
