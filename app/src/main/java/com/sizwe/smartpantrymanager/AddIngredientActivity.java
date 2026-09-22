@@ -9,10 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.sizwe.smartpantrymanager.database.DatabaseHelper;
 import android.content.Intent;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 
 public class AddIngredientActivity extends AppCompatActivity {
 
-    private EditText etIngredientName;
+    private AutoCompleteTextView etIngredientName;
+
     private EditText etQuantity;
     private EditText etUnit;
     private EditText etExpiryDate;
@@ -27,6 +30,41 @@ public class AddIngredientActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_ingredient);
 
         etIngredientName = findViewById(R.id.etIngredientName);
+
+        String[] pantryIngredients = {
+                "Milk",
+                "Eggs",
+                "Bread",
+                "Cheese",
+                "Flour",
+                "Chicken",
+                "Beef",
+                "Rice",
+                "Pasta",
+                "Tomato",
+                "Tuna",
+                "Banana",
+                "Apple",
+                "Peanut Butter",
+                "Custard Powder",
+                "Lettuce",
+                "Potato",
+                "Vegetables",
+                "Wrap",
+                "Water"
+        };
+
+        ArrayAdapter<String> ingredientAdapter =
+                new ArrayAdapter<>(
+                        this,
+                        android.R.layout.simple_dropdown_item_1line,
+                        pantryIngredients
+                );
+
+        etIngredientName.setAdapter(
+                ingredientAdapter
+        );
+
         etQuantity = findViewById(R.id.etQuantity);
         etUnit = findViewById(R.id.etUnit);
         etExpiryDate = findViewById(R.id.etExpiryDate);
