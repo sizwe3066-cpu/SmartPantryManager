@@ -315,4 +315,70 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return instructions;
     }
 
+    public String getRecipeIngredientsText(int recipeId){
+
+        SQLiteDatabase db =
+                this.getReadableDatabase();
+
+        Cursor cursor =
+                db.rawQuery(
+                        "SELECT ingredient_name FROM recipe_ingredients WHERE recipe_id=?",
+                        new String[]{String.valueOf(recipeId)}
+                );
+        StringBuilder builder =
+                new StringBuilder();
+        if(cursor.moveToFirst()){
+            do{
+                builder.append(
+                        cursor.getString(0)
+                ).append("\n");
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        return builder.toString();
+    }
+    public String getRecipeIngredients(
+            String recipeName){
+        if(recipeName.equals("French Toast")){
+            return "Milk\nEggs\nBread";
+        }
+        if(recipeName.equals("Omelette")){
+            return "Eggs\nMilk";
+        }
+        if(recipeName.equals("Grilled Cheese")){
+            return "Bread\nCheese";
+        }
+        if(recipeName.equals("Pancakes")){
+            return "Milk\nEggs\nFlour";
+        }
+        return "";
+    }
+    public String getRecipeIngredientsByRecipeId(
+            int recipeId){
+
+        SQLiteDatabase db =
+                this.getReadableDatabase();
+
+        Cursor cursor =
+                db.rawQuery(
+                        "SELECT ingredient_name " +
+                                "FROM recipe_ingredients " +
+                                "WHERE recipe_id=?",
+                        new String[]{
+                                String.valueOf(recipeId)
+                        }
+                );
+        StringBuilder builder =
+                new StringBuilder();
+        if(cursor.moveToFirst()){
+            do{
+                builder.append(
+                        cursor.getString(0)
+                ).append("\n");
+
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        return builder.toString();
+    }
 }

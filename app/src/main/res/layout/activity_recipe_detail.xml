@@ -11,10 +11,30 @@
     android:paddingBottom="16dp">
 
     <TextView
+        android:textStyle="bold"
         android:id="@+id/txtRecipeName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"/>
+        android:textSize="24sp"
+        android:layout_marginBottom="12dp"/>
+
+    <TextView
+        android:id="@+id/txtIngredients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ingredients:"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/txtInstructionsHeading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Instructions:"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp"/>
 
     <TextView
         android:id="@+id/txtInstructions"

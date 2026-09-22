@@ -39,5 +39,14 @@ public class RecipeDetailActivity extends AppCompatActivity {
                         recipeName
                 )
         );
+        TextView txtIngredients =
+                findViewById(R.id.txtIngredients);
+
+        txtIngredients.setText(
+                "Ingredients:\n\n" +
+                        dbHelper.getRecipeIngredients(
+                                recipeName
+                        )
+        );
     }
 }
