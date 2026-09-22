@@ -6,6 +6,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import android.content.ContentValues;
 
+import android.database.Cursor;
+import java.util.ArrayList;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "pantry.db";
@@ -69,5 +72,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long result = db.insert("pantry", null, values);
 
         return result != -1;
+    }
+    public ArrayList<String> getAllIngredients() {
+        ArrayList<String> ingredients = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT ingredient_name FROM pantry",
+                null
+        );
+        if (cursor.moveToFirst()) {
+            do {
+                ingredients.add(
+                        cursor.getString(0)
+                );
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return ingredients;
     }
 }
