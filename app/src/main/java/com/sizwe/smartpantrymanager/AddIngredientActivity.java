@@ -55,25 +55,43 @@ public class AddIngredientActivity extends AppCompatActivity {
             return;
         }
         double quantity = Double.parseDouble(quantityText);
-        boolean saved = dbHelper.addIngredient(
-                ingredientName,
-                quantity,
-                unit,
-                expiryDate
-        );
-        if (saved) {
+        try {
+
+            boolean saved = dbHelper.addIngredient(
+                    ingredientName,
+                    quantity,
+                    unit,
+                    expiryDate
+            );
+
+            if (saved) {
+
+                Toast.makeText(
+                        this,
+                        "Ingredient saved successfully",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+                finish();
+
+            } else {
+
+                Toast.makeText(
+                        this,
+                        "Failed to save ingredient",
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+
+        } catch (Exception e) {
+
             Toast.makeText(
                     this,
-                    "Ingredient saved successfully",
-                    Toast.LENGTH_SHORT
+                    e.getMessage(),
+                    Toast.LENGTH_LONG
             ).show();
-            finish();
-        } else {
-            Toast.makeText(
-                    this,
-                    "Failed to save ingredient",
-                    Toast.LENGTH_SHORT
-            ).show();
+
         }
+
     }
 }
