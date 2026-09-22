@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "pantry.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -377,34 +377,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         insertRecipeIngredient(20,"Milk",2,"Cups");
         insertRecipeIngredient(20,"Custard Powder",2,"Tablespoons");
 
-
-        insertRecipeIngredient(
-                15,
-                "Pasta",
-                200,
-                "Grams"
-        );
-
-        insertRecipeIngredient(
-                15,
-                "Cheese",
-                150,
-                "Grams"
-        );
-
-        insertRecipeIngredient(
-                16,
-                "Apple",
-                1,
-                "Unit"
-        );
-
-        insertRecipeIngredient(
-                16,
-                "Banana",
-                1,
-                "Unit"
-        );
     }
 
     public boolean ingredientExists(
@@ -523,19 +495,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public String getRecipeIngredients(
             String recipeName){
-        if(recipeName.equals("French Toast")){
-            return "Milk\nEggs\nBread";
+
+        SQLiteDatabase db =
+                this.getReadableDatabase();
+
+        Cursor recipeCursor =
+                db.rawQuery(
+                        "SELECT recipe_id FROM recipes WHERE recipe_name=?",
+                        new String[]{recipeName}
+                );
+
+        int recipeId = -1;
+
+        if(recipeCursor.moveToFirst()){
+
+            recipeId =
+                    recipeCursor.getInt(0);
+
         }
-        if(recipeName.equals("Omelette")){
-            return "Eggs\nMilk";
+
+        recipeCursor.close();
+
+        if(recipeId == -1){
+            return "";
         }
-        if(recipeName.equals("Grilled Cheese")){
-            return "Bread\nCheese";
-        }
-        if(recipeName.equals("Pancakes")){
-            return "Milk\nEggs\nFlour";
-        }
-        return "";
+
+        return getRecipeIngredientsByRecipeId(
+                recipeId
+        );
     }
     public String getRecipeIngredientsByRecipeId(
             int recipeId){

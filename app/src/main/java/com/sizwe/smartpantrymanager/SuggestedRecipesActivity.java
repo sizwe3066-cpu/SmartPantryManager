@@ -3,6 +3,7 @@ package com.sizwe.smartpantrymanager;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,6 +31,11 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
                         dbHelper.getSuggestedRecipes()
                 );
         listRecipes.setAdapter(adapter);
+
+        Button btnBack =
+                findViewById(R.id.btnBack);
+
+        btnBack.setOnClickListener(v -> finish());
 
         listRecipes.setOnItemClickListener(
                 (parent, view, position, id) -> {

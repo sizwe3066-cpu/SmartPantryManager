@@ -6,6 +6,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.sizwe.smartpantrymanager.database.DatabaseHelper;
+import android.widget.Button;
 
 public class RecipeDetailActivity extends AppCompatActivity {
 
@@ -43,10 +44,13 @@ public class RecipeDetailActivity extends AppCompatActivity {
                 findViewById(R.id.txtIngredients);
 
         txtIngredients.setText(
-                "Ingredients:\n\n" +
-                        dbHelper.getRecipeIngredients(
-                                recipeName
-                        )
+                dbHelper.getRecipeIngredients(
+                        recipeName
+                )
         );
+        Button btnBack =
+                findViewById(R.id.btnBack);
+
+        btnBack.setOnClickListener(v -> finish());
     }
 }
