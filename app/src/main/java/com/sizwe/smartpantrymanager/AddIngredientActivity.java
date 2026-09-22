@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.sizwe.smartpantrymanager.database.DatabaseHelper;
+import android.content.Intent;
 
 public class AddIngredientActivity extends AppCompatActivity {
 
@@ -65,24 +66,28 @@ public class AddIngredientActivity extends AppCompatActivity {
             );
 
             if (saved) {
-
                 Toast.makeText(
                         this,
                         "Ingredient saved successfully",
                         Toast.LENGTH_SHORT
                 ).show();
-
+                Intent intent =
+                        new Intent(
+                                AddIngredientActivity.this,
+                                PantryActivity.class
+                        );
+                intent.addFlags(
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP
+                );
+                startActivity(intent);
                 finish();
-
             } else {
-
                 Toast.makeText(
                         this,
                         "Failed to save ingredient",
                         Toast.LENGTH_SHORT
                 ).show();
             }
-
         } catch (Exception e) {
 
             Toast.makeText(
@@ -90,8 +95,6 @@ public class AddIngredientActivity extends AppCompatActivity {
                     e.getMessage(),
                     Toast.LENGTH_LONG
             ).show();
-
         }
-
     }
 }

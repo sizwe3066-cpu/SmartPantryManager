@@ -14,6 +14,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+
+
 public class PantryActivity extends AppCompatActivity {
 
     @Override
@@ -47,9 +49,7 @@ public class PantryActivity extends AppCompatActivity {
                     recreate();
                     return true;
                 });
-
         listIngredients.setAdapter(adapter);
-
         Button btnAddIngredient =
                 findViewById(R.id.btnAddIngredient);
         btnAddIngredient.setOnClickListener(v -> {
