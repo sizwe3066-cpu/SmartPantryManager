@@ -99,4 +99,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return ingredients;
     }
+    public boolean updateIngredient(
+            String oldName,
+            String newName) {
+        SQLiteDatabase db =
+                this.getWritableDatabase();
+        ContentValues values =
+                new ContentValues();
+        values.put("ingredient_name", newName);
+        int result = db.update(
+                "pantry",
+                values,
+                "ingredient_name=?",
+                new String[]{oldName}
+        );
+        return result > 0;
+    }
 }

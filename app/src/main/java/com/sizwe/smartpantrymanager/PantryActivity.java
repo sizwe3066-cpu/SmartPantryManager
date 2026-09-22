@@ -50,6 +50,26 @@ public class PantryActivity extends AppCompatActivity {
                     return true;
                 });
         listIngredients.setAdapter(adapter);
+
+        listIngredients.setOnItemClickListener(
+                (parent, view, position, id) -> {
+                    String ingredient =
+                            ingredients.get(position);
+                    boolean updated =
+                            dbHelper.updateIngredient(
+                                    ingredient,
+                                    ingredient + " Updated"
+                            );
+                    if (updated) {
+                        Toast.makeText(
+                                this,
+                                "Ingredient updated",
+                                Toast.LENGTH_SHORT
+                        ).show();
+                        recreate();
+                    }
+                });
+
         Button btnAddIngredient =
                 findViewById(R.id.btnAddIngredient);
         btnAddIngredient.setOnClickListener(v -> {
