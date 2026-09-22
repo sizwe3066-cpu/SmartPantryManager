@@ -297,4 +297,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return suggestions;
     }
 
+    public String getRecipeInstructions(
+            String recipeName){
+        SQLiteDatabase db =
+                this.getReadableDatabase();
+        Cursor cursor =
+                db.rawQuery(
+                        "SELECT instructions FROM recipes WHERE recipe_name=?",
+                        new String[]{recipeName}
+                );
+        String instructions = "";
+        if(cursor.moveToFirst()){
+            instructions =
+                    cursor.getString(0);
+        }
+        cursor.close();
+        return instructions;
+    }
+
 }

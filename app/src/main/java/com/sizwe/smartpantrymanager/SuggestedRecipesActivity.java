@@ -7,6 +7,7 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.sizwe.smartpantrymanager.database.DatabaseHelper;
+import android.content.Intent;
 
 public class SuggestedRecipesActivity extends AppCompatActivity {
 
@@ -29,5 +30,23 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
                         dbHelper.getSuggestedRecipes()
                 );
         listRecipes.setAdapter(adapter);
+
+        listRecipes.setOnItemClickListener(
+                (parent, view, position, id) -> {
+                    String recipe =
+                            adapter.getItem(position);
+                    Intent intent =
+                            new Intent(
+                                    SuggestedRecipesActivity.this,
+                                    RecipeDetailActivity.class
+                            );
+                    intent.putExtra(
+                            "recipe_name",
+                            recipe
+                    );
+                    startActivity(intent);
+                });
+
     }
+
 }
