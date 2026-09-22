@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.sizwe.smartpantrymanager.database.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,9 +15,10 @@ public class MainActivity extends AppCompatActivity {
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         dbHelper.getWritableDatabase();
 
+        dbHelper.seedRecipes();
+
         Intent intent = new Intent(this, PantryActivity.class);
         startActivity(intent);
         finish();
-
     }
 }

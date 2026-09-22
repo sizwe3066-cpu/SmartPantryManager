@@ -102,17 +102,109 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean updateIngredient(
             String oldName,
             String newName) {
+
         SQLiteDatabase db =
                 this.getWritableDatabase();
+
         ContentValues values =
                 new ContentValues();
+
         values.put("ingredient_name", newName);
+
         int result = db.update(
                 "pantry",
                 values,
                 "ingredient_name=?",
                 new String[]{oldName}
         );
+
         return result > 0;
     }
+
+    public void insertRecipe(
+            String recipeName,
+            String instructions) {
+
+        SQLiteDatabase db =
+                this.getWritableDatabase();
+        ContentValues values =
+                new ContentValues();
+        values.put("recipe_name", recipeName);
+        values.put("instructions", instructions);
+        db.insert(
+                "recipes",
+                null,
+                values
+        );
+    }
+    public void seedRecipes() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor =
+                db.rawQuery(
+                        "SELECT COUNT(*) FROM recipes",
+                        null
+                );
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        if(count > 0){
+            return;
+        }
+        insertRecipe(
+                "French Toast",
+                "Beat eggs and milk. Dip bread and fry."
+        );
+        insertRecipe(
+                "Omelette",
+                "Mix eggs and milk then fry."
+        );
+        insertRecipe(
+                "Grilled Cheese",
+                "Place cheese between bread and toast."
+        );
+        insertRecipe(
+                "Pancakes",
+                "Mix flour, milk and eggs then fry."
+        );
+}
+    public void insertRecipeIngredient(
+            int recipeId,
+            String ingredientName,
+            double quantity,
+            String unit){
+        SQLiteDatabase db =
+                this.getWritableDatabase();
+        ContentValues values =
+                new ContentValues();
+        values.put("recipe_id", recipeId);
+        values.put("ingredient_name", ingredientName);
+        values.put("quantity", quantity);
+        values.put("unit", unit);
+        db.insert(
+                "recipe_ingredients",
+                null,
+                values
+        );
+    }
+    public ArrayList<String> getAllRecipes(){
+        ArrayList<String> recipes =
+                new ArrayList<>();
+        SQLiteDatabase db =
+                this.getReadableDatabase();
+        Cursor cursor =
+                db.rawQuery(
+                        "SELECT recipe_name FROM recipes",
+                        null
+                );
+        if(cursor.moveToFirst()){
+            do{
+                recipes.add(
+                        cursor.getString(0)
+                );
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        return recipes;
+    }
+
 }

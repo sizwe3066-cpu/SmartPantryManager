@@ -53,13 +53,16 @@ public class PantryActivity extends AppCompatActivity {
 
         listIngredients.setOnItemClickListener(
                 (parent, view, position, id) -> {
+
                     String ingredient =
                             ingredients.get(position);
+
                     boolean updated =
                             dbHelper.updateIngredient(
                                     ingredient,
                                     ingredient + " Updated"
                             );
+
                     if (updated) {
                         Toast.makeText(
                                 this,
@@ -77,6 +80,16 @@ public class PantryActivity extends AppCompatActivity {
                     new Intent(
                             PantryActivity.this,
                             AddIngredientActivity.class
+                    );
+            startActivity(intent);
+        });
+        Button btnSuggestedRecipes =
+                findViewById(R.id.btnSuggestedRecipes);
+        btnSuggestedRecipes.setOnClickListener(v -> {
+            Intent intent =
+                    new Intent(
+                            PantryActivity.this,
+                            SuggestedRecipesActivity.class
                     );
             startActivity(intent);
         });
