@@ -93,5 +93,18 @@ public class PantryActivity extends AppCompatActivity {
                     );
             startActivity(intent);
         });
+
+        Button btnSettings =
+                findViewById(R.id.btnSettings);
+
+        btnSettings.setOnClickListener(v -> {
+            Intent intent =
+                    new Intent(
+                            PantryActivity.this,
+                            SettingsActivity.class
+                    );
+            startActivity(intent);
+
+        });
     }
 }

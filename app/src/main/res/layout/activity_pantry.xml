@@ -23,6 +23,12 @@
         android:layout_height="wrap_content"
         android:text="Suggested Recipes"/>
 
+    <Button
+        android:id="@+id/btnSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Settings"/>
+
     <ListView
         android:id="@+id/listIngredients"
         android:layout_width="match_parent"
