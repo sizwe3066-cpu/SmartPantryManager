@@ -10,6 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.sizwe.smartpantrymanager.database.DatabaseHelper;
 import android.content.Intent;
 
+import android.view.View;
+import android.widget.TextView;
+import java.util.ArrayList;
+
 public class SuggestedRecipesActivity extends AppCompatActivity {
 
     @Override
@@ -24,13 +28,33 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
                 findViewById(R.id.listRecipes);
         DatabaseHelper dbHelper =
                 new DatabaseHelper(this);
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(
-                        this,
-                        android.R.layout.simple_list_item_1,
-                        dbHelper.getSuggestedRecipes()
-                );
-        listRecipes.setAdapter(adapter);
+
+        TextView txtNoRecipes =
+                findViewById(R.id.txtNoRecipes);
+
+        ArrayList<String> recipes =
+                dbHelper.getSuggestedRecipes();
+
+        if(recipes.isEmpty()){
+
+            txtNoRecipes.setVisibility(
+                    View.VISIBLE
+            );
+
+            listRecipes.setVisibility(
+                    View.GONE
+            );
+        }
+        else{
+
+            RecipeAdapter adapter =
+                    new RecipeAdapter(
+                            this,
+                            recipes
+                    );
+
+            listRecipes.setAdapter(adapter);
+        }
 
         Button btnBack =
                 findViewById(R.id.btnBack);
@@ -39,8 +63,9 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
 
         listRecipes.setOnItemClickListener(
                 (parent, view, position, id) -> {
+
                     String recipe =
-                            adapter.getItem(position);
+                            recipes.get(position);
                     Intent intent =
                             new Intent(
                                     SuggestedRecipesActivity.this,
@@ -52,7 +77,6 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
                     );
                     startActivity(intent);
                 });
-
     }
 
 }
