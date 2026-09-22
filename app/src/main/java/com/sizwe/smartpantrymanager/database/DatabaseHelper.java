@@ -73,6 +73,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return result != -1;
     }
+    public void deleteIngredient(String ingredientName){
+        SQLiteDatabase db =
+                this.getWritableDatabase();
+        db.delete(
+                "pantry",
+                "ingredient_name=?",
+                new String[]{ingredientName}
+        );
+    }
     public ArrayList<String> getAllIngredients() {
         ArrayList<String> ingredients = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();

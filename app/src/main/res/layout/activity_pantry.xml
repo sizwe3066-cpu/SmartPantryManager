@@ -17,11 +17,10 @@
         android:layout_height="wrap_content"
         android:text="Add Ingredient" />
 
-    <TextView
-        android:id="@+id/txtIngredients"
+    <ListView
+        android:id="@+id/listIngredients"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"/>
+        android:layout_height="wrap_content"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerIngredients"
