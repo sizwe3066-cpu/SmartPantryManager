@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
         dbHelper.getWritableDatabase();
 
         dbHelper.seedRecipes();
+        dbHelper.seedRecipeIngredients();
 
         Intent intent = new Intent(this, PantryActivity.class);
         startActivity(intent);

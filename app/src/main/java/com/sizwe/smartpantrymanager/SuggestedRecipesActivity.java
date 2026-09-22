@@ -26,7 +26,7 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
                 new ArrayAdapter<>(
                         this,
                         android.R.layout.simple_list_item_1,
-                        dbHelper.getAllRecipes()
+                        dbHelper.getSuggestedRecipes()
                 );
         listRecipes.setAdapter(adapter);
     }

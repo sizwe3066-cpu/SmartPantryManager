@@ -207,4 +207,94 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return recipes;
     }
 
+    public void seedRecipeIngredients(){
+        SQLiteDatabase db =
+                this.getWritableDatabase();
+        Cursor cursor =
+                db.rawQuery(
+                        "SELECT COUNT(*) FROM recipe_ingredients",
+                        null
+                );
+        cursor.moveToFirst();
+        int count =
+                cursor.getInt(0);
+        cursor.close();
+        if(count > 0){
+            return;
+        }
+        insertRecipeIngredient(1,"Milk",1,"Cup");
+        insertRecipeIngredient(1,"Eggs",2,"Units");
+        insertRecipeIngredient(1,"Bread",2,"Slices");
+
+        insertRecipeIngredient(2,"Eggs",2,"Units");
+        insertRecipeIngredient(2,"Milk",1,"Cup");
+
+        insertRecipeIngredient(3,"Bread",2,"Slices");
+        insertRecipeIngredient(3,"Cheese",2,"Slices");
+
+        insertRecipeIngredient(4,"Milk",1,"Cup");
+        insertRecipeIngredient(4,"Eggs",2,"Units");
+        insertRecipeIngredient(4,"Flour",2,"Cups");
+    }
+
+    public boolean ingredientExists(
+            String ingredientName){
+        SQLiteDatabase db =
+                this.getReadableDatabase();
+        Cursor cursor =
+                db.rawQuery(
+                        "SELECT * FROM pantry WHERE ingredient_name=?",
+                        new String[]{ingredientName}
+                );
+        boolean exists =
+                cursor.getCount() > 0;
+        cursor.close();
+        return exists;
+    }
+    public ArrayList<String> getSuggestedRecipes(){
+        ArrayList<String> suggestions =
+                new ArrayList<>();
+        if(
+                ingredientExists("Milk")
+                        &&
+                        ingredientExists("Eggs")
+                        &&
+                        ingredientExists("Bread")
+        ){
+            suggestions.add(
+                    "French Toast"
+            );
+        }
+        if(
+                ingredientExists("Milk")
+                        &&
+                        ingredientExists("Eggs")
+        ){
+            suggestions.add(
+                    "Omelette"
+            );
+        }
+        if(
+                ingredientExists("Bread")
+                        &&
+                        ingredientExists("Cheese")
+        ){
+            suggestions.add(
+                    "Grilled Cheese"
+            );
+        }
+        if(
+                ingredientExists("Milk")
+                        &&
+                        ingredientExists("Eggs")
+                        &&
+                        ingredientExists("Flour")
+        ){
+            suggestions.add(
+                    "Pancakes"
+            );
+        }
+        return suggestions;
+    }
+
 }
