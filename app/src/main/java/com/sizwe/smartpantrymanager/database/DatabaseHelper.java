@@ -101,7 +101,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public boolean updateIngredient(
             String oldName,
-            String newName) {
+            String newName,
+            double quantity,
+            String unit,
+            String expiryDate){
 
         SQLiteDatabase db =
                 this.getWritableDatabase();
@@ -109,18 +112,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values =
                 new ContentValues();
 
-        values.put("ingredient_name", newName);
-
-        int result = db.update(
-                "pantry",
-                values,
-                "ingredient_name=?",
-                new String[]{oldName}
+        values.put(
+                "ingredient_name",
+                newName
         );
+
+        values.put(
+                "quantity",
+                quantity
+        );
+
+        values.put(
+                "unit",
+                unit
+        );
+
+        values.put(
+                "expiry_date",
+                expiryDate
+        );
+
+        int result =
+                db.update(
+                        "pantry",
+                        values,
+                        "ingredient_name=?",
+                        new String[]{oldName}
+                );
 
         return result > 0;
     }
-
     public void insertRecipe(
             String recipeName,
             String instructions) {
@@ -552,5 +573,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return builder.toString();
     }
+
+    public Cursor getIngredientDetails(
+            String ingredientName){
+        SQLiteDatabase db =
+                this.getReadableDatabase();
+        return db.rawQuery(
+                "SELECT ingredient_name, quantity, unit, expiry_date " +
+                        "FROM pantry WHERE ingredient_name=?",
+                new String[]{ingredientName}
+        );
+    }
+
 
 }

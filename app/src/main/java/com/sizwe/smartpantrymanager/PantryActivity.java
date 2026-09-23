@@ -58,20 +58,23 @@ public class PantryActivity extends AppCompatActivity {
                     String ingredient =
                             ingredients.get(position);
 
-                    boolean updated =
-                            dbHelper.updateIngredient(
-                                    ingredient,
-                                    ingredient + " Updated"
+                    Intent intent =
+                            new Intent(
+                                    PantryActivity.this,
+                                    AddIngredientActivity.class
                             );
 
-                    if (updated) {
-                        Toast.makeText(
-                                this,
-                                "Ingredient updated",
-                                Toast.LENGTH_SHORT
-                        ).show();
-                        recreate();
-                    }
+                    intent.putExtra(
+                            "ingredient_name",
+                            ingredient
+                    );
+
+                    intent.putExtra(
+                            "isEdit",
+                            true
+                    );
+
+                    startActivity(intent);
                 });
 
         Button btnAddIngredient =

@@ -11,6 +11,7 @@ import com.sizwe.smartpantrymanager.database.DatabaseHelper;
 import android.content.Intent;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.database.Cursor;
 
 public class AddIngredientActivity extends AppCompatActivity {
 
@@ -23,6 +24,9 @@ public class AddIngredientActivity extends AppCompatActivity {
     private Button btnSaveIngredient;
 
     private DatabaseHelper dbHelper;
+
+    private boolean isEdit = false;
+    private String originalIngredientName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +74,43 @@ public class AddIngredientActivity extends AppCompatActivity {
         etExpiryDate = findViewById(R.id.etExpiryDate);
 
         btnSaveIngredient = findViewById(R.id.btnSaveIngredient);
-
         dbHelper = new DatabaseHelper(this);
+        isEdit =
+                getIntent().getBooleanExtra(
+                        "isEdit",
+                        false
+                );
+        originalIngredientName =
+                getIntent().getStringExtra(
+                        "ingredient_name"
+                );
+
+        if(isEdit && originalIngredientName != null){
+            Cursor cursor =
+                    dbHelper.getIngredientDetails(
+                            originalIngredientName
+                    );
+            if(cursor.moveToFirst()){
+                etIngredientName.setText(
+                        cursor.getString(0)
+                );
+                etQuantity.setText(
+                        String.valueOf(
+                                cursor.getDouble(1)
+                        )
+                );
+                etUnit.setText(
+                        cursor.getString(2)
+                );
+                etExpiryDate.setText(
+                        cursor.getString(3)
+                );
+            }
+            cursor.close();
+            btnSaveIngredient.setText(
+                    "Update Ingredient"
+            );
+        }
 
         btnSaveIngredient.setOnClickListener(v -> saveIngredient());
     }
@@ -96,12 +135,27 @@ public class AddIngredientActivity extends AppCompatActivity {
         double quantity = Double.parseDouble(quantityText);
         try {
 
-            boolean saved = dbHelper.addIngredient(
-                    ingredientName,
-                    quantity,
-                    unit,
-                    expiryDate
-            );
+            boolean saved;
+
+            if(isEdit){
+
+                saved =
+                        dbHelper.updateIngredient(
+                                originalIngredientName,
+                                ingredientName,
+                                quantity,
+                                unit,
+                                expiryDate
+                        );
+            } else {
+                saved =
+                        dbHelper.addIngredient(
+                                ingredientName,
+                                quantity,
+                                unit,
+                                expiryDate
+                        );
+            }
 
             if (saved) {
                 Toast.makeText(
